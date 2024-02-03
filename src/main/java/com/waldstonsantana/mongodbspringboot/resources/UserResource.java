@@ -1,5 +1,6 @@
 package com.waldstonsantana.mongodbspringboot.resources;
 
+import com.waldstonsantana.mongodbspringboot.dto.UserDTO;
 import com.waldstonsantana.mongodbspringboot.models.UserModel;
 
 import com.waldstonsantana.mongodbspringboot.services.UserService;
@@ -21,9 +22,10 @@ public class UserResource {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UserModel>> findAll() {
+    public ResponseEntity<List<UserDTO>> findAll() {
         List<UserModel> list = userService.findAll();
-        return ResponseEntity.ok().body(list);
+        List<UserDTO> listDtos = list.stream().map(x -> new UserDTO(x)).toList();
+        return ResponseEntity.ok().body(listDtos);
     }
 
 
