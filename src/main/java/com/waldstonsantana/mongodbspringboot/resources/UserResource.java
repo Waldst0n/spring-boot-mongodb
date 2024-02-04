@@ -6,15 +6,13 @@ import com.waldstonsantana.mongodbspringboot.models.UserModel;
 import com.waldstonsantana.mongodbspringboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URI;
+
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping(value = "/users")
@@ -36,6 +34,19 @@ public class UserResource {
 
         return ResponseEntity.ok().body(new UserDTO(obj));
     }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody UserDTO objDTO) {
+        UserModel obj = userService.fromDTO(objDTO);
+        obj = userService.insert(obj);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return  ResponseEntity.created(uri).build();
+
+
+    }
+
+
 
 
 }
