@@ -36,6 +36,19 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public UserModel update(UserModel obj) {
+
+        UserModel newObj = userRepository.findById(obj.getId()).get();
+        updateData(newObj, obj);
+        return userRepository.save(newObj);
+    }
+
+    private void updateData(UserModel newObj, UserModel obj) {
+
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+    }
+
     public UserModel fromDTO(UserDTO objDTO) {
         return new UserModel(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
     }
