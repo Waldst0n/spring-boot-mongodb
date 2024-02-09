@@ -6,6 +6,7 @@ import com.waldstonsantana.mongodbspringboot.services.exceptions.NotFoundExcepti
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -23,6 +24,9 @@ public class PostService {
         return post;
     }
 
+    public List<PostModel> findByTitle(String text) {
+        return postRepository.findByTitleContainingIgnoreCase(text);
+    }
 
 
 }
