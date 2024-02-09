@@ -1,6 +1,7 @@
 package com.waldstonsantana.mongodbspringboot.resources;
 
 import com.waldstonsantana.mongodbspringboot.dto.UserDTO;
+import com.waldstonsantana.mongodbspringboot.models.PostModel;
 import com.waldstonsantana.mongodbspringboot.models.UserModel;
 
 import com.waldstonsantana.mongodbspringboot.services.UserService;
@@ -35,12 +36,20 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(obj));
     }
 
+    @RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+    public ResponseEntity<List<PostModel>> findPosts(@PathVariable String id) {
+        UserModel obj = userService.findById(id);
+
+        return ResponseEntity.ok().body(obj.getPosts());
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deletById(@PathVariable String id) {
        userService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
+
 
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO objDTO) {
