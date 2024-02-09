@@ -1,6 +1,7 @@
 package com.waldstonsantana.mongodbspringboot.config;
 
 import com.waldstonsantana.mongodbspringboot.dto.AuthorDTO;
+import com.waldstonsantana.mongodbspringboot.dto.CommentDTO;
 import com.waldstonsantana.mongodbspringboot.models.PostModel;
 import com.waldstonsantana.mongodbspringboot.models.UserModel;
 import com.waldstonsantana.mongodbspringboot.repositories.PostRepository;
@@ -40,6 +41,12 @@ public class Instantiation implements CommandLineRunner {
         PostModel post1 = new PostModel(null, sdf.parse("21/02/2018"),"Partiu viagem!", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
         PostModel post2 = new PostModel(null,sdf.parse("23/03/2018"),"Bom dia", "Acordei feliz hj!", new AuthorDTO(maria));
 
+        CommentDTO c1 = new CommentDTO("Boa viagem ",sdf.parse("21/03/2018"),new AuthorDTO(alex));
+        CommentDTO c2 = new CommentDTO("Aproveite! ",sdf.parse("22/03/2018"),new AuthorDTO(bob));
+        CommentDTO c3 = new CommentDTO("Tenha um ótimo dia! ",sdf.parse("24/03/2018"),new AuthorDTO(alex));
+
+        post1.getComments().addAll(Arrays.asList(c1,c2));
+        post2.getComments().add(c3);
 
 
         postRepository.saveAll(Arrays.asList(post1,post2));
